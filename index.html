@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Drawing app</title>
+</head>
+<body>
+    <header class="menu_top">
+       
+           <div>
+               <button class="erase_all">Erase All</button>
+           </div>
+           <div>
+               <label for="brushSize">Brush Size</label>
+               <input type="range" name="brushSize" id="size" min="1" max="100">
+            </div>
+            <div>
+                <label for="brushOpacity">Brush Opacity</label>
+                <input type="range" name="brushOpacity" id="opacity" min="0" max="1" step="0.01">
+           </div>
+    </header>
+    <main>
+        <div class="tools__container">
+            <div>
+                <button class="tool_btn" data-tool="pen">Pen</button>
+                <button class="tool_btn" data-tool="eraser">Eraser</button>
+            </div>
+        </div>
+        <div class="canvas__container">
+            <!-- <canvas id="canvas" width="600" height="600"></canvas> -->
+        </div>
+        <div class="colors__container">
+            <section class="color_palette__container">
+                
+            </section>
+            <section class="layers__container">
+                
+            </section>
+        </div>
+    </main>
+    <script src="/app.js"></script>
+</body>
+</html>
