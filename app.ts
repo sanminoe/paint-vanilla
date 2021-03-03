@@ -9,7 +9,12 @@ let inputBrushOpacity: HTMLInputElement = document.querySelector('#opacity');
 
 const colorPaletteContainer = document.querySelector('.color_palette__container');
 
-let too;
+let tools = {
+	pen: 0,
+	eraser: 0,
+	line: 0,
+	rectangle: 0
+};
 
 let getRgbaArray = (rgba): Array<any> => {
 	return rgba.replace(/[rgba\(\)]/g, '').split(',');
@@ -138,13 +143,63 @@ class BrushShape {
 	}
 }
 
+class Tool {
+	layer: Canvas;
+	private tools: Object;
+	currentTool: string;
+	mode: string;
+	brush: BrushShape;
+	lineTool: LineTool;
+	constructor(layer, lineTool: LineTool, brush) {
+		this.tools = {
+			pen: 0,
+			eraser: 0,
+			line: 0
+		};
+		this.brush = brush;
+		this.lineTool = lineTool;
+		this.currentTool = 'pen';
+		this.layer = layer;
+	}
+	set tool(current) {
+		this.currentTool = current;
+	}
+	draw(points?) {
+		let mousePosX = this.layer.mouseX - this.layer.left - this.brush.brushSize / 2;
+		let mousePosY = this.layer.mouseY - this.layer.top - this.brush.brushSize / 2;
+		if (this.currentTool === 'pen') {
+			// ctx.fillRect(mouseX, mouseY, 10, 10);
+			this.layer.context.beginPath();
+			this.layer.context.arc(mousePosX, mousePosY, Math.PI * this.brush.brushSize, 0, Math.PI * 2, false);
+			this.layer.context.closePath();
+			this.layer.context.fillStyle = this.brush.color;
+			this.layer.context.fill();
+		} else if (this.currentTool === 'eraser') {
+			this.layer.context.beginPath();
+			this.layer.context.arc(mousePosX, mousePosY, Math.PI * this.brush.brushSize, 0, Math.PI * 2, false);
+			this.layer.context.closePath();
+			this.layer.context.fillStyle = 'rgba(255,255,255,1)';
+			this.layer.context.fill();
+		} else if (this.currentTool === 'line' && points.length === 2) {
+			// line Tool
+			this.layer.context.beginPath();
+			this.layer.context.strokeStyle = 'black';
+			this.layer.context.moveTo(points[0].x, points[0].y);
+			this.layer.context.lineTo(points[1].x, points[1].y);
+			this.layer.context.stroke();
+			this.layer.context.closePath();
+
+			// this.lineTool.drawLine(points[0], points[1]);
+		}
+	}
+}
+
 // line is made of 1 array of 2 point [Start point | End point]
 // When the user click create a point(Start Point).
 // then user click again create the End point and then draw the line
 class LineTool {
 	constructor() {}
-
-	drawLine() {}
+	drawLine(startPoint: Point, endPoint: Point) {}
 }
 class Point {
 	x: number;
@@ -152,6 +207,7 @@ class Point {
 	constructor(x: number, y: number) {
 		this.x = x;
 		this.y = y;
+		return this;
 	}
 }
 
@@ -168,6 +224,7 @@ let toolsButtons = document.querySelectorAll('.tool_btn');
 toolsButtons.forEach((btn) => {
 	btn.addEventListener('click', (e: Event) => {
 		let current = e.currentTarget;
+		tool.currentTool = current.getAttribute('data-tool');
 		iCanvas.drawingMode = current.getAttribute('data-tool');
 		previewLayer.drawingMode = current.getAttribute('data-tool');
 	});
@@ -177,23 +234,25 @@ function drawOnCanvas(e: MouseEvent) {
 	iCanvas.setMousePosition(e.clientX, e.clientY);
 	previewLayer.setMousePosition(e.clientX, e.clientY);
 	if (isMouseDown) {
-		iCanvas.draw();
+		tool.draw(cords);
 	}
 	previewLayer.drawBrushPreview();
 }
-let points = [];
+let cords = [];
+let tool = new Tool(iCanvas, LineTool, brush);
 let setDrawModeOn = () => {
 	// if mouse is down Draw
-	points.push(new Point(iCanvas.mouseX - iCanvas.left, iCanvas.mouseY - iCanvas.top));
-	isMouseDown = true;
+	cords.push(new Point(iCanvas.mouseX - iCanvas.left, iCanvas.mouseY - iCanvas.top));
 	iCanvas.count += 1;
-	if (iCanvas.count === 2) {
+	console.log(cords[0].x);
+	if (iCanvas.count === 2 && tool.currentTool === 'line') {
 		//Draw Line
-		console.log(points);
+		tool.draw(cords);
+		cords = [];
 		iCanvas.count = 0;
+	} else {
+		isMouseDown = true;
 	}
-	iCanvas.draw();
-	console.log(iCanvas.context.getImageData(0, 0, iCanvas.width, iCanvas.height));
 };
 
 let setDrawModeOff = () => {
