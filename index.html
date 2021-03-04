@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <title>Drawing app</title>
 </head>
-<body>
+<body style="overflow: hidden;">
     <header class="menu_top">
            <div>
                <button class="erase_all">Erase All</button>
@@ -21,32 +21,37 @@
                 <input type="range" name="brushOpacity" id="opacity" min="0" max="1" step="0.01" value="1">
            </div>
            <div>
-               <label for=""></label>
-               <input type="checkbox" id="closePathBtn" name="closePathBtn" />
+               <label for="fillPathBtn">Fill Path</label>
+               <input type="checkbox" id="fillPathBtn" name="fillPathBtn" />
            </div>
            
     </header>
-    <main>
-        <div class="tools__container">
-            <div>
-                <button class="tool_btn" data-tool="pen">Pen</button>
-                <button class="tool_btn" data-tool="eraser">Eraser</button>
-                <button class="tool_btn" data-tool="line">Line</button>
-                <button class="tool_btn" data-tool="polygon">Polygon</button>
-            </div>
+   <main>
+       <div class="tools__container">
+        <div>
+            <button class="tool_btn" data-tool="pen"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
+            <button class="tool_btn" data-tool="eraser">Eraser</button>
+            <button class="tool_btn" data-tool="line">Line</button>
+            <button class="tool_btn" data-tool="rectangle">Rectangle</button>
+            <button class="tool_btn" data-tool="ellipse">Ellipse</button>
+            <button class="tool_btn" data-tool="circle">Circle</button>
+            <button class="tool_btn" data-tool="polygon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></button>
         </div>
-        <div class="canvas__container">
-            <!-- <canvas id="canvas" width="600" height="600"></canvas> -->
-        </div>
-        <div class="colors__container">
-            <section class="color_palette__container">
-                
-            </section>
-            <section class="layers__container">
-                
-            </section>
-        </div>
-    </main>
+    </div>
+    <div class="canvas__container">
+        <!-- <canvas id="canvas" width="600" height="600"></canvas> -->
+    </div>
+    <div class="colors__container">
+        <section class="color_palette__container">
+            
+        </section>
+        <section class="layers__container">
+            
+        </section>
+    </div>
+   </main>
+    
+    
     <script src="/app.js"></script>
 </body>
 </html>

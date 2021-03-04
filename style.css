@@ -5,12 +5,7 @@
 }
 
 body {
-	display: flex;
-	flex-direction: column;
-}
-
-main {
-	display: flex;
+	height: 100%;
 }
 
 .menu_top {
@@ -18,17 +13,35 @@ main {
 	border-bottom: 1px solid black;
 	display: flex;
 	align-items: center;
+	grid-column: 1 / 4;
+	grid-row: 1 / 2;
 }
-
+main {
+	width: 100%;
+	height: 100px;
+	display: flex;
+	/* grid-template-rows: repeat(6, auto); */
+}
 .tools__container {
-	width: 7rem;
+	width: 4rem;
+	background-color: rgb(16, 16, 16);
 	border-right: 1px solid black;
 	display: flex;
 	justify-content: center;
+	height: 30rem;
 }
-
+.tools__container div {
+	display: flex;
+	flex-wrap: wrap;
+	height: max-content;
+	justify-content: center;
+	margin-left: 3px;
+	margin-top: 5px;
+	width: 100%;
+}
 .canvas__container {
 	width: 75%;
+	height: fit-content;
 	overflow: hidden;
 	border-right: 1px solid black;
 }
@@ -39,12 +52,15 @@ canvas {
 
 .colors__container {
 	display: flex;
+
+	left: 85%;
+	width: 8rem;
 	justify-content: center;
 	border-left: 1px solid black;
-	flex: 1;
+	/* flex: 1; */
 }
 .color_palette__container {
-	width: 98%;
+	width: 98;
 	height: max-content;
 
 	display: flex;
@@ -54,10 +70,28 @@ canvas {
 	border: none;
 	outline: none;
 	background: none;
-	width: 2rem;
-	height: 2rem;
+	width: 1rem;
+	height: 1rem;
 	margin-right: 0.3rem;
 	border: 1px solid black;
 	cursor: pointer;
 	margin-top: 3px;
+}
+
+.tool_btn {
+	width: 2rem;
+	height: 2rem;
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgb(28, 28, 28);
+	margin-top: 0.3rem;
+	margin-right: 0.3rem;
+	border-radius: 3px;
+	color: white;
+}
+.tool_btn svg {
+	width: 50%;
+	color: white;
 }
